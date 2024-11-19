@@ -1,3 +1,4 @@
+<!-- products.php -->
 <?php
 
 @include 'config.php';

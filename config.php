@@ -1,5 +1,6 @@
+<!-- config.php -->
 <?php
 
-$conn = mysqli_connect('localhost','root','','shop_db') or die('connection failed');
+$conn = mysqli_connect('localhost','root','','event_management') or die('connection failed');
 
 ?>
