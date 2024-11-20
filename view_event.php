@@ -48,20 +48,28 @@ if (isset($message)) {
 <div class="container">
 
     <?php if (isset($event)) { ?>
-    <section class="event-details">
-        <h2><?php echo $event['name']; ?></h2>
+        <section class="event-details">
+    <h2><?php echo $event['name']; ?></h2>
 
-        <div class="event-info">
-            <img src="uploaded_img/<?php echo $event['image']; ?>" alt="<?php echo $event['name']; ?>" class="event-image" />
-            
-            <div class="event-description">
-                <p><strong>Description:</strong> <?php echo $event['description']; ?></p>
-                <p><strong>Date & Time:</strong> <?php echo date('F j, Y, g:i A', strtotime($event['date_time'])); ?></p>
-                <p><strong>Venue:</strong> <?php echo $event['venue']; ?></p>
-                <p><strong>Price:</strong> $<?php echo $event['price']; ?>/-</p>
-            </div>
+    <div class="event-info">
+        <!-- Adjusting image size using event-image class -->
+        
+        <div class="event-card">
+            <img src="uploaded_img/<?php echo $event['image']; ?>" alt="<?php echo $event['name']; ?>"/>
+            <p><strong>Description:</strong> <?php echo $event['description']; ?></p>
+            <p><strong>Date & Time:</strong> <?php echo date('F j, Y, g:i A', strtotime($event['date_time'])); ?></p>
+            <p><strong>Venue:</strong> <?php echo $event['venue']; ?></p>
+            <p><strong>Price:</strong> $<?php echo $event['price']; ?>/-</p>
+
+            <!-- Displaying the new seating type -->
+            <p><strong>Seating Type:</strong> <?php echo $event['seating_type']; ?></p>
+
+            <!-- Displaying supervision requirement -->
+            <p><strong>Requires Adult Supervision:</strong> <?php echo ($event['is_supervised'] == 1) ? 'Yes' : 'No'; ?></p>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <section class="event-action">
         <a href="buy_ticket.php?event_id=<?php echo $event['id']; ?>" class="btn">Buy Ticket</a>

@@ -110,6 +110,56 @@ body {
    }
 }
 
+/*  pagination */
+.pagination {
+   margin: 20px 0;
+   text-align: center;
+}
+
+.pagination-buttons {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.pagination-buttons a {
+   display: inline-block;
+   padding: 10px 15px;
+   margin: 0 5px;
+   text-decoration: none;
+   color: #fff;
+   background-color: #007bff;
+   border-radius: 5px;
+   transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination-buttons a:hover {
+   background-color: #0056b3;
+   color: #fff;
+}
+
+.pagination-buttons a.active {
+   background-color: #28a745;
+   color: #fff;
+   font-weight: bold;
+}
+
+.pagination-buttons a.prev-btn,
+.pagination-buttons a.next-btn {
+   font-size: 14px;
+   font-weight: bold;
+   text-transform: uppercase;
+}
+
+.pagination-buttons a.prev-btn:hover,
+.pagination-buttons a.next-btn:hover {
+   background-color: #dc3545;
+}
+
+.pagination-buttons a.active:hover {
+   background-color: #218838;
+}
+
 /* Admin Page */
 .message {
    background: #28a745;
@@ -273,6 +323,16 @@ table td img {
 .event-card .btn:hover {
    background-color: #2980b9;
 }
+
+.event-image {
+   width: 100%;        /* Ensures the image is responsive */
+   max-width: 600px;   /* Prevents the image from expanding beyond a certain size */
+   height: auto;       /* Keeps the aspect ratio intact */
+   object-fit: cover;  /* Ensures the image fits within the container without distortion */
+   margin: 0 auto;     /* Centers the image */
+   display: block;     /* Ensures it's not inline */
+}
+
 
 .pagination {
    text-align: center;

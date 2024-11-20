@@ -22,15 +22,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES ('$event_id', '$fullname', '$email', '$quantity', '$total_cost', '$payment_method')");
 
         if (!$insert_purchase) {
-            echo "<script>alert('Failed to save purchase details!'); window.location = 'all_events.php';</script>";
+            echo "<script>alert('Failed to save purchase details!'); window.location = 'index.php';</script>";
             exit;
         }
     } else {
-        echo "<script>alert('Event not found!'); window.location = 'all_events.php';</script>";
+        echo "<script>alert('Event not found!'); window.location = 'index.php';</script>";
         exit;
     }
 } else {
-    echo "<script>alert('Invalid access!'); window.location = 'all_events.php';</script>";
+    echo "<script>alert('Invalid access!'); window.location = 'index.php';</script>";
     exit;
 }
 ?>

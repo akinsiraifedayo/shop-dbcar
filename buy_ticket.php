@@ -34,7 +34,7 @@ if (isset($_GET['id'])) {
     $event_query = mysqli_query($conn, "SELECT * FROM `events` WHERE id = $event_id");
     $event = mysqli_fetch_assoc($event_query);
 } else {
-    header('Location: all_events.php');
+    header('Location: index.php');
     exit;
 }
 ?>

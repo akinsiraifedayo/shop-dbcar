@@ -8,11 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['phone'];
 
     // Check if the email already exists
-    $check_email = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'");
+    $check_email = mysqli_query($conn, "SELECT * FROM `customers` WHERE email = '$email'");
     if (mysqli_num_rows($check_email) > 0) {
         $message = 'Email already exists. Please login instead.';
     } else {
-        $insert_user = mysqli_query($conn, "INSERT INTO `users` (name, email, password, phone) 
+        // Insert the new customer into the database
+        $insert_user = mysqli_query($conn, "INSERT INTO `customers` (name, email, password, phone) 
                                             VALUES ('$name', '$email', '$password', '$phone')");
         if ($insert_user) {
             $message = 'Registration successful. Please login.';
@@ -43,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="email" name="email" placeholder="Email Address" required class="box">
         <input type="password" name="password" placeholder="Password" required class="box">
         <input type="text" name="phone" placeholder="Phone Number" class="box">
+        
         <input type="submit" value="Register" class="btn">
     </form>
 </div>

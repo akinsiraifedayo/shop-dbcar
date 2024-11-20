@@ -6,13 +6,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $user_query = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'");
+    // Query the customers table instead of users table
+    $user_query = mysqli_query($conn, "SELECT * FROM `customers` WHERE email = '$email'");
     if (mysqli_num_rows($user_query) > 0) {
         $user = mysqli_fetch_assoc($user_query);
+        // Verify password using the stored hash
         if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['name'];
-            header('Location: all_events.php');
+            header('Location: index.php');
             exit;
         } else {
             $message = 'Incorrect password. Please try again.';
