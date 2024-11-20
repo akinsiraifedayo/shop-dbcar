@@ -1,3 +1,4 @@
+<!-- completed -->
 <?php
 @include 'config.php';
 
@@ -8,12 +9,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['phone'];
 
     // Check if the email already exists
-    $check_email = mysqli_query($conn, "SELECT * FROM `customers` WHERE email = '$email'");
+    $check_email = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'");
     if (mysqli_num_rows($check_email) > 0) {
         $message = 'Email already exists. Please login instead.';
     } else {
         // Insert the new customer into the database
-        $insert_user = mysqli_query($conn, "INSERT INTO `customers` (name, email, password, phone) 
+        $insert_user = mysqli_query($conn, "INSERT INTO `users` (name, email, password, phone) 
                                             VALUES ('$name', '$email', '$password', '$phone')");
         if ($insert_user) {
             $message = 'Registration successful. Please login.';

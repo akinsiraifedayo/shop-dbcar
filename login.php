@@ -1,3 +1,4 @@
+<!-- completed -->
 <?php
 @include 'config.php';
 session_start();
@@ -6,15 +7,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Query the customers table instead of users table
-    $user_query = mysqli_query($conn, "SELECT * FROM `customers` WHERE email = '$email'");
+    // Query the users table instead of users table
+    $user_query = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'");
     if (mysqli_num_rows($user_query) > 0) {
         $user = mysqli_fetch_assoc($user_query);
         // Verify password using the stored hash
         if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['name'];
-            header('Location: index.php');
+            $_SESSION['is_admin'] = $user['is_admin'];
+            // Redirect based on admin status
+            if ($user['is_admin'] == 1) {
+                header('Location: admin_bookings.php');
+            } else {
+                header('Location: index.php');
+            }
             exit;
         } else {
             $message = 'Incorrect password. Please try again.';

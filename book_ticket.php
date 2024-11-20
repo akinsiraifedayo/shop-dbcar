@@ -1,3 +1,4 @@
+<!-- completed -->
 <?php
 @include 'config.php';
 session_start();
@@ -29,14 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $message = 'At least one adult seat must be purchased for events requiring supervision.';
         } elseif ($event['is_supervised'] == 1 && empty($adult_photo)) {
             $message = 'An adult photo is required for events requiring supervision.';
-        } elseif ($event['is_supervised'] == 0 && $adult_seat > 0) {
-            // For unsupervised events, allow adult seats to be zero, but not greater than zero
-            $message = 'Adult seats should be zero for unsupervised events.';
         } else {
             // Process the booking
             // If an adult photo is uploaded, save it
             if (!empty($adult_photo)) {
-                $target_dir = "uploads/adult_photos/";
+                $target_dir = "images/adult_photos/";
                 $target_file = $target_dir . basename($adult_photo);
                 move_uploaded_file($_FILES["adult_photo"]["tmp_name"], $target_file);
             }

@@ -1,17 +1,16 @@
+<!-- 3 -->
 <?php
 @include 'config.php';
 session_start();
 
-// Check if the admin is logged in
-// if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
-//     header('Location: login.php');
-//     exit;
-// }
+// Admin Protection
+@include 'admin_protected.php';
+check_admin();
 
 // Handle delete action
 if (isset($_GET['delete'])) {
     $user_id = $_GET['delete'];
-    $delete_query = "DELETE FROM customers WHERE id = $user_id";
+    $delete_query = "DELETE FROM users WHERE id = $user_id";
     mysqli_query($conn, $delete_query);
     header('Location: manage_users.php');
     exit;
@@ -25,7 +24,7 @@ if (isset($_POST['update_user'])) {
     $phone = $_POST['phone'];
     $is_admin = isset($_POST['is_admin']) ? 1 : 0;
 
-    $update_query = "UPDATE customers SET 
+    $update_query = "UPDATE users SET 
                         name = '$name', 
                         email = '$email', 
                         phone = '$phone', 
@@ -42,7 +41,7 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page
 $offset = ($page - 1) * $limit;
 
 // Fetch the total number of users
-$total_query = "SELECT COUNT(*) AS total FROM customers";
+$total_query = "SELECT COUNT(*) AS total FROM users";
 $total_result = mysqli_query($conn, $total_query);
 $total_row = mysqli_fetch_assoc($total_result);
 $total_users = $total_row['total'];
@@ -51,7 +50,7 @@ $total_users = $total_row['total'];
 $total_pages = ceil($total_users / $limit);
 
 // Fetch the users for the current page
-$query = "SELECT * FROM customers LIMIT $limit OFFSET $offset";
+$query = "SELECT * FROM users LIMIT $limit OFFSET $offset";
 $users_result = mysqli_query($conn, $query);
 ?>
 

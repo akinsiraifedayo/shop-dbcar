@@ -1,6 +1,7 @@
+<!-- 10 -->
 <header class="header">
    <div class="flex">
-      <a href="#" class="logo">Event Booking</a>
+      <a href="#" class="logo">Mellodian Community Park</a>
       
       <nav class="navbar">
          <?php
@@ -12,13 +13,14 @@
          if (isset($_SESSION['user_id'])) {
             // Fetch the user's information (for admin check)
             $user_id = $_SESSION['user_id'];
-            $query = "SELECT is_admin FROM customers WHERE id = '$user_id'";
+            $query = "SELECT is_admin FROM users WHERE id = '$user_id'";
             $result = mysqli_query($conn, $query);
             $user = mysqli_fetch_assoc($result);
 
             if ($user['is_admin'] == 1) {
                // Show admin-related menu items
                echo '<a href="admin_events.php">Add Events</a>';
+               echo '<a href="index.php">Preview Events</a>';
                echo '<a href="admin_bookings.php">View Bookings</a>';
                echo '<a href="manage_users.php">Manage Users</a>';
             } else {

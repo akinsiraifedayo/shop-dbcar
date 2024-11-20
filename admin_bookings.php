@@ -1,13 +1,12 @@
+<!-- completed -->
 <?php
 @include 'config.php';  // Assuming 'config.php' initializes your $conn
 
 session_start();
 
-// Check if the admin is logged in
-// if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] != 1) {
-//     header('Location: login.php');
-//     exit;
-// }
+// Admin Protection
+@include 'admin_protected.php';
+check_admin();
 
 // Set how many bookings to show per page
 $limit = 10;  // Number of bookings per page
@@ -38,7 +37,7 @@ $query = "SELECT b.id, b.tickets, b.adult_seat, b.total_price, b.booking_date,
                  b.adult_photo
           FROM bookings b
           JOIN events e ON b.event_id = e.id
-          JOIN customers u ON b.user_id = u.id
+          JOIN users u ON b.user_id = u.id
           LIMIT $limit OFFSET $offset";
 $bookings_result = mysqli_query($conn, $query);
 if (!$bookings_result) {
@@ -65,7 +64,7 @@ if (!$bookings_result) {
         <?php if (mysqli_num_rows($bookings_result) > 0) { 
             while ($row = mysqli_fetch_assoc($bookings_result)) { ?>
                 <div class="event-card">
-                    <img src="uploaded_img/<?php echo $row['event_image']; ?>" alt="<?php echo $row['event_name']; ?>">
+                    <img src="images/events/<?php echo $row['event_image']; ?>" alt="<?php echo $row['event_name']; ?>">
                     <h3><?php echo $row['event_name']; ?></h3>
                     <p><strong>Customer:</strong> <?php echo $row['customer_name']; ?></p>
                     <p><strong>Email:</strong> <?php echo $row['customer_email']; ?></p>
@@ -75,7 +74,7 @@ if (!$bookings_result) {
                     <p><strong>Booking Date:</strong> <?php echo date('F j, Y, g:i A', strtotime($row['booking_date'])); ?></p>
                     <?php if (!empty($row['adult_photo']) && $row['adult_photo'] != 'no-photo') { ?>
                         <p><strong>Adult Photo:</strong></p>
-                        <img src="uploads/adult_photos/<?php echo $row['adult_photo']; ?>" alt="Adult Photo" class="event-image">
+                        <img src="images/adult_photos/<?php echo $row['adult_photo']; ?>" alt="Adult Photo" class="event-image">
                     <?php } else { ?>
                         <p><em>No adult photo required or provided.</em></p>
                     <?php } ?>

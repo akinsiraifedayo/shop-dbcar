@@ -1,3 +1,4 @@
+<!-- 8 -->
 <?php
 
 @include 'config.php'; // Include the database connection
@@ -41,7 +42,7 @@ $select_events = mysqli_query($conn, "SELECT * FROM `events` LIMIT $offset, $lim
         ?>
             <div class="event-card">
                 <!-- Assuming you have an image column in the events table -->
-                <img src="uploaded_img/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>"> 
+                <img src="images/events/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>"> 
                 <h3><?php echo $row['name']; ?></h3>
                 <p><strong>Date:</strong> <?php echo date('F j, Y', strtotime($row['date_time'])); ?></p>
                 <p><strong>Location:</strong> <?php echo $row['location']; ?></p> <!-- Location from the database -->

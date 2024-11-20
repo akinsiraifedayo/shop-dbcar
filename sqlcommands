@@ -1,51 +1,62 @@
-CREATE DATABASE IF NOT EXISTS event_management2;
-USE event_management2;
+-- Create Database
+CREATE DATABASE IF NOT EXISTS `event_management2`;
+USE `event_management2`;
 
-CREATE TABLE events (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    image VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    date_time DATETIME NOT NULL,
-    location VARCHAR(255) NOT NULL,
-    price DECIMAL(10, 2) NOT NULL
-);
+-- Table structure for `bookings`
+CREATE TABLE `bookings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  `tickets` int(11) NOT NULL,
+  `adult_seat` int(11) NOT NULL,
+  `total_price` decimal(10,2) NOT NULL,
+  `adult_photo` varchar(255) DEFAULT NULL,
+  `booking_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `customer_id` (`user_id`),
+  KEY `event_id` (`event_id`),
+  CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `bookings_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE seat_types (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    price_modifier DECIMAL(10, 2) NOT NULL
-);
+-- Table structure for `events`
+CREATE TABLE `events` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `date_time` datetime NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `is_supervised` tinyint(1) DEFAULT 0,
+  `seating_type` enum('With Tables','Without Tables') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Table structure for `users`
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL UNIQUE,
+  `password` varchar(255) NOT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_admin` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE customers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    phone VARCHAR(15),
-    adult_photo VARCHAR(255) NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- Insert data for `bookings`
+INSERT INTO `bookings` (`id`, `user_id`, `event_id`, `tickets`, `adult_seat`, `total_price`, `adult_photo`, `booking_date`) VALUES
+(10, 6, 6, 20, 3, 20000.00, '', '2024-11-20 13:51:00'),
+(12, 6, 7, 8, 10, 240.00, 'adult.jpeg', '2024-11-20 13:53:57'),
+(18, 7, 7, 4, 2, 120.00, 'adult.jpeg', '2024-11-20 14:07:55');
 
-CREATE TABLE admins (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- Insert data for `events`
+INSERT INTO `events` (`id`, `name`, `description`, `date_time`, `location`, `price`, `image`, `is_supervised`, `seating_type`) VALUES
+(6, 'A Fairy Merry Christmas', 'come explore the fairy world', '2024-12-25 12:00:00', 'Texas', 1000.00, 'fairychristmas.jpeg', 0, 'Without Tables'),
+(7, 'RollerCoaster Ride', 'get your adrenaline up', '2024-12-21 09:00:00', 'Texas', 30.00, 'rollercoaster.jpeg', 1, 'With Tables');
 
-CREATE TABLE ticket_sales (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT NOT NULL,
-    event_id INT NOT NULL,
-    seat_type_id INT NOT NULL,
-    num_tickets INT NOT NULL CHECK (num_tickets <= 8),
-    total_price DECIMAL(10, 2) NOT NULL,
-    purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (customer_id) REFERENCES customers(id),
-    FOREIGN KEY (event_id) REFERENCES events(id),
-    FOREIGN KEY (seat_type_id) REFERENCES seat_types(id)
-);
-
-
+-- Insert data for `users`
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `created_at`, `is_admin`) VALUES
+(6, 'Admin Name', 'admin@gmail.com', '$2y$10$NFaeh6f33Sr9tdowBlzKzuXi2RU5vFzjRup5T6S54OK/dHATYtKTi', '09060830987', '2024-11-20 12:49:30', 1),
+(7, 'Zeus', 'user@gmail.com', '$2y$10$y9Ve7UNqiypGFwWfXiVe8.k02j97HPTGFKfoNAJeXb/1nO8m/P.Qq', '081111111111', '2024-11-20 14:07:11', 0);

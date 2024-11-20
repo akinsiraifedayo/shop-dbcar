@@ -1,6 +1,11 @@
+<!-- completed -->
 <?php
 
 @include 'config.php'; // Database configuration file
+
+// Admin Protection
+@include 'admin_protected.php';
+check_admin();
 
 // Add Event
 if (isset($_POST['add_event'])) {
@@ -13,7 +18,7 @@ if (isset($_POST['add_event'])) {
     $seating_type = $_POST['seating_type'];  // "With Tables" or "Without Tables"
     $image = $_FILES['image']['name'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
-    $image_folder = 'uploaded_img/' . $image;
+    $image_folder = 'images/events/' . $image;
 
     // Insert event into the database with is_supervised and seating_type fields
     $insert_query = mysqli_query($conn, "INSERT INTO `events`(name, description, date_time, location, price, image, is_supervised, seating_type) 
@@ -34,7 +39,7 @@ if (isset($_GET['delete'])) {
     // Fetch image path before deletion
     $select_image_query = mysqli_query($conn, "SELECT image FROM `events` WHERE id = $delete_id");
     $row = mysqli_fetch_assoc($select_image_query);
-    $image_path = 'uploaded_img/' . $row['image'];
+    $image_path = 'images/events/' . $row['image'];
 
     // Delete event from database
     $delete_query = mysqli_query($conn, "DELETE FROM `events` WHERE id = $delete_id");
@@ -63,7 +68,7 @@ if (isset($_POST['update_event'])) {
     $seating_type = $_POST['seating_type'];  // "With Tables" or "Without Tables"
     $image = $_FILES['image']['name'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
-    $image_folder = 'uploaded_img/' . $image;
+    $image_folder = 'images/events/' . $image;
 
     if (!empty($image)) {
         // Update event with new image and seating type
@@ -92,7 +97,7 @@ if (isset($_POST['update_event'])) {
 
 
 // Number of events per page
-$events_per_page = 2;
+$events_per_page = 10;
 
 // Get the current page number from the query string, default to 1 if not set
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -222,7 +227,7 @@ if (isset($message)) {
                     $seating_type = $row['seating_type'];
             ?>
             <tr>
-                <td><img src="./uploaded_img/<?php echo $row['image']; ?>" height="100" alt=""></td>
+                <td><img src="./images/events/<?php echo $row['image']; ?>" height="100" alt=""></td>
                 <td><?php echo $row['name']; ?></td>
                 <td><?php echo $row['description']; ?></td>
                 <td><?php echo $row['date_time']; ?></td>

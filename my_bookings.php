@@ -1,3 +1,4 @@
+<!-- completed -->
 <?php
 @include 'config.php';
 session_start();
@@ -76,7 +77,7 @@ $total_pages = ceil($total_bookings / $limit);
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
             <div class="event-card">
-                <img src="uploaded_img/<?php echo $row['image']; ?>" alt="<?php echo $row['event_name']; ?>" class="event-image">
+                <img src="images/events/<?php echo $row['image']; ?>" alt="<?php echo $row['event_name']; ?>" class="event-image">
                 <div class="event-details">
                     <h3><?php echo $row['event_name']; ?></h3>
                     <p><strong>Date & Time:</strong> <?php echo date('F j, Y, g:i A', strtotime($row['date_time'])); ?></p>

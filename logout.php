@@ -1,3 +1,4 @@
+<!-- completed -->
 <?php
 session_start();
 session_unset();
