@@ -1,4 +1,3 @@
-<!-- completed -->
 <?php
 @include 'config.php';  // Assuming 'config.php' initializes your $conn
 
@@ -7,6 +6,17 @@ session_start();
 // Admin Protection
 @include 'admin_protected.php';
 check_admin();
+
+// Handle deletion request
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_booking_id'])) {
+    $delete_id = intval($_POST['delete_booking_id']); // Sanitize input
+    $delete_query = "DELETE FROM bookings WHERE id = $delete_id";
+    if (mysqli_query($conn, $delete_query)) {
+        echo "<script>alert('Booking deleted successfully.');</script>";
+    } else {
+        echo "<script>alert('Failed to delete booking: " . mysqli_error($conn) . "');</script>";
+    }
+}
 
 // Set how many bookings to show per page
 $limit = 10;  // Number of bookings per page
@@ -78,6 +88,12 @@ if (!$bookings_result) {
                     <?php } else { ?>
                         <p><em>No adult photo required or provided.</em></p>
                     <?php } ?>
+                    <br>
+                    <!-- Delete Form -->
+                    <form method="POST" onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                        <input type="hidden" name="delete_booking_id" value="<?php echo $row['id']; ?>">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
                 </div>
         <?php } 
         } else { ?>
@@ -107,4 +123,3 @@ if (!$bookings_result) {
 <script src="js/script.js"></script>
 </body>
 </html>
-

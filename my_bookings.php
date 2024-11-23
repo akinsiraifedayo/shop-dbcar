@@ -83,7 +83,7 @@ $total_pages = ceil($total_bookings / $limit);
                     <p><strong>Date & Time:</strong> <?php echo date('F j, Y, g:i A', strtotime($row['date_time'])); ?></p>
                     <p><strong>Booking Date:</strong> <?php echo date('F j, Y', strtotime($row['booking_date'])); ?></p>
                     <p><strong>Tickets:</strong> <?php echo $row['tickets']; ?> ticket(s)</p>
-                    <p><strong>Total Price:</strong> $<?php echo number_format($row['total_price'], 2); ?>/-</p>
+                    <p><strong>Total Price:</strong> $<?php echo number_format($row['total_price'], 2); ?> </p>
                 </div>
             </div>
         <?php }

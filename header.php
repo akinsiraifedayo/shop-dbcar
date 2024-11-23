@@ -1,7 +1,7 @@
 <!-- 10 -->
 <header class="header">
    <div class="flex">
-      <a href="#" class="logo">Mellodian Community Park</a>
+      <a href="index.php" class="logo">Mellodian Community Park</a>
       
       <nav class="navbar">
          <?php
